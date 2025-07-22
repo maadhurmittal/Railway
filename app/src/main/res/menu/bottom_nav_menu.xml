@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_lost"
+        android:icon="@drawable/ic_lost"   <!-- Replace with your own icon or use material icon -->
+    android:title="Lost Items" />
+
+    <item
+        android:id="@+id/menu_found"
+        android:icon="@drawable/ic_found"  <!-- Replace or use material icon -->
+    android:title="Found Items" />
+
+    <item
+        android:id="@+id/menu_post"
+        android:icon="@drawable/ic_post"   <!-- Replace or use material icon -->
+    android:title="Post Item" />
+
+    <item
+        android:id="@+id/menu_my_posts"
+        android:icon="@drawable/ic_my_posts" <!-- Replace or use material icon -->
+    android:title="My Posts" />
+
+</menu>

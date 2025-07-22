@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "503494315826",
+    "project_id": "traintracklostandfound",
+    "storage_bucket": "traintracklostandfound.appspot.com"
+
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:503494315826:android:679a5fc38ed0cc4db7112b",
+        "android_client_info": {
+          "package_name": "com.example.railway"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBE-6oMkGDuq2oOAjK1mR16GwfIwCclkuc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
