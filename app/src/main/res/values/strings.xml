@@ -1,3 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Railway</string>
+    <string name="app_name">RailwayLostAndFound</string>
+    <string name="menu_lost_items">Lost Items</string>
+    <string name="menu_found_items">Found Items</string>
+    <string name="menu_post_item">Post Item</string>
+    <string name="menu_my_posts">My Posts</string>
+
+    <string-array name="item_types">
+        <item>Lost</item>
+        <item>Found</item>
+    </string-array>
+
+    <string-array name="item_categories">
+        <item>Electronics</item>
+        <item>Documents</item>
+        <item>Bags</item>
+        <item>Clothing</item>
+        <item>Jewelry</item>
+        <item>Other</item>
+    </string-array>
 </resources>

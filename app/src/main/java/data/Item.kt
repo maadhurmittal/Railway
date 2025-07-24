@@ -1,4 +1,4 @@
-package data
+package com.example.railway.data
 
 data class Item(
     val itemId: String = "",

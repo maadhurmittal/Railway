@@ -18,7 +18,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.railway"
-        minSdk = 24                     // Minimum Android version your app supports
+        minSdk = 26                     // Minimum Android version your app supports
         targetSdk = 36                  // Targeted Android version
 
         versionCode = 1                 // Version code for Play Store
@@ -83,7 +83,11 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.firebase:firebase-storage-ktx")
-    implementation(libs.material)
+    implementation(libs.material) // Keep this if you're using Material Components views alongside Compose
+
+    // Glide for image loading
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
 
     // Testing libraries
     testImplementation(libs.junit)

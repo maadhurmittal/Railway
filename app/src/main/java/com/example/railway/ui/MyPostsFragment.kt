@@ -9,31 +9,14 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.railway.R
+import com.google.firebase.auth.FirebaseAuth
 import com.example.railway.data.FirebaseRepository // Corrected import
 import com.example.railway.data.Item // Corrected import
 
-class ItemsFragment : Fragment() {
+class MyPostsFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ItemsAdapter
-    private var itemType: String = "lost"
-
-    companion object {
-        private const val ARG_TYPE = "type"
-
-        fun newInstance(type: String): ItemsFragment {
-            val fragment = ItemsFragment()
-            val args = Bundle()
-            args.putString(ARG_TYPE, type)
-            fragment.arguments = args
-            return fragment
-        }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        itemType = arguments?.getString(ARG_TYPE) ?: "lost"
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,11 +24,11 @@ class ItemsFragment : Fragment() {
     ): View? {
         return inflater.inflate(R.layout.fragment_items, container, false)
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         recyclerView = view.findViewById(R.id.recyclerViewItems)
-        val emptyView: View = view.findViewById(R.id.emptyView) // <-- Add this line
-
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
         adapter = ItemsAdapter(emptyList()) { item ->
             val intent = Intent(requireContext(), ItemDetailActivity::class.java)
             intent.putExtra("itemId", item.itemId)
@@ -53,18 +36,10 @@ class ItemsFragment : Fragment() {
         }
         recyclerView.adapter = adapter
 
-        FirebaseRepository.fetchItems(itemType) { items ->
-            adapter.updateList(items)
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
-            // Show/hide empty view logic
-            if (items.isEmpty()) {
-                recyclerView.visibility = View.GONE
-                emptyView.visibility = View.VISIBLE
-            } else {
-                recyclerView.visibility = View.VISIBLE
-                emptyView.visibility = View.GONE
-            }
+        FirebaseRepository.fetchMyPosts(uid) { items ->
+            adapter.updateList(items)
         }
     }
-
 }

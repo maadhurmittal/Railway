@@ -3,22 +3,23 @@
 
     <item
         android:id="@+id/menu_lost"
-        android:icon="@drawable/ic_lost"   <!-- Replace with your own icon or use material icon -->
-    android:title="Lost Items" />
+        android:icon="@drawable/ic_lost"
+        android:title="@string/menu_lost_items"/>
+    <!-- Replace with your own icon or use material icon -->
 
     <item
         android:id="@+id/menu_found"
-        android:icon="@drawable/ic_found"  <!-- Replace or use material icon -->
-    android:title="Found Items" />
+        android:icon="@drawable/ic_found"
+    android:title="@string/menu_found_items" />
 
     <item
         android:id="@+id/menu_post"
-        android:icon="@drawable/ic_post"   <!-- Replace or use material icon -->
-    android:title="Post Item" />
+        android:icon="@drawable/ic_post"
+    android:title="@string/menu_post_item" />
 
     <item
         android:id="@+id/menu_my_posts"
-        android:icon="@drawable/ic_my_posts" <!-- Replace or use material icon -->
-    android:title="My Posts" />
+        android:icon="@drawable/ic_my_posts"
+    android:title="@string/menu_my_posts" />
 
 </menu>
