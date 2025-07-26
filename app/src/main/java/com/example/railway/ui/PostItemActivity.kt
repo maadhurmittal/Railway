@@ -10,6 +10,7 @@ import com.example.railway.R
 import com.example.railway.data.FirebaseRepository
 import com.example.railway.data.Item
 import com.google.firebase.auth.FirebaseAuth
+import java.text.SimpleDateFormat
 import java.util.*
 
 class PostItemActivity : AppCompatActivity() {
@@ -22,6 +23,8 @@ class PostItemActivity : AppCompatActivity() {
     private lateinit var dateEdit: EditText
     private lateinit var uploadBtn: Button
     private lateinit var postBtn: Button
+    private lateinit var itemImageView: ImageView
+
     private var imageUri: Uri? = null
 
     private val PICK_IMAGE_REQUEST = 1001
@@ -38,8 +41,26 @@ class PostItemActivity : AppCompatActivity() {
         dateEdit = findViewById(R.id.editDate)
         uploadBtn = findViewById(R.id.btnUploadImage)
         postBtn = findViewById(R.id.btnPost)
+        itemImageView = findViewById(R.id.item_image_preview)
 
-        // Date picker for dateEdit
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.item_types,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            typeSpinner.adapter = adapter
+        }
+
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.item_categories,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            categorySpinner.adapter = adapter
+        }
+
         dateEdit.setOnClickListener {
             val c = Calendar.getInstance()
             val year = c.get(Calendar.YEAR)
@@ -47,7 +68,10 @@ class PostItemActivity : AppCompatActivity() {
             val day = c.get(Calendar.DAY_OF_MONTH)
 
             val dpd = DatePickerDialog(this, { _, y, m, d ->
-                dateEdit.setText("$y-${m + 1}-$d")
+                val selectedDate = Calendar.getInstance()
+                selectedDate.set(y, m, d)
+                val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+                dateEdit.setText(dateFormat.format(selectedDate.time))
             }, year, month, day)
             dpd.show()
         }
@@ -72,6 +96,8 @@ class PostItemActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.data != null) {
             imageUri = data.data
+            itemImageView.setImageURI(imageUri)
+            itemImageView.visibility = ImageView.VISIBLE
             Toast.makeText(this, "Image Selected", Toast.LENGTH_SHORT).show()
         }
     }
@@ -83,15 +109,21 @@ class PostItemActivity : AppCompatActivity() {
         val category = categorySpinner.selectedItem.toString()
         val location = locationEdit.text.toString().trim()
         val date = dateEdit.text.toString().trim()
-        val postedBy = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+        val postedBy = FirebaseAuth.getInstance().currentUser?.uid
 
         if (title.isEmpty() || description.isEmpty() || location.isEmpty() || date.isEmpty() || imageUri == null) {
-            Toast.makeText(this, "Please fill all fields and select image", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Please fill all fields and select an image.", Toast.LENGTH_LONG).show()
+            return
+        }
+        if (postedBy == null) {
+            Toast.makeText(this, "You must be logged in to post an item.", Toast.LENGTH_LONG).show()
             return
         }
 
-        FirebaseRepository.uploadImage(imageUri!!) { success, url ->
-            if (success && url != null) {
+        Toast.makeText(this, "Uploading image and posting item...", Toast.LENGTH_LONG).show()
+
+        FirebaseRepository.uploadImage(imageUri!!) { success, photoUrl ->
+            if (success && photoUrl != null) {
                 val item = Item(
                     type = type,
                     title = title,
@@ -100,18 +132,21 @@ class PostItemActivity : AppCompatActivity() {
                     location = location,
                     date = date,
                     postedBy = postedBy,
-                    photoUrl = url
+                    photoUrl = photoUrl,
+                    timestamp = System.currentTimeMillis(),
+                    status = "pending"
                 )
-                FirebaseRepository.postItem(item) { ok, err ->
-                    if (ok) {
-                        Toast.makeText(this, "Post Uploaded", Toast.LENGTH_SHORT).show()
+
+                FirebaseRepository.postItem(item) { postOk, errorMessage ->
+                    if (postOk) {
+                        Toast.makeText(this, "Item Posted Successfully!", Toast.LENGTH_SHORT).show()
                         finish()
                     } else {
-                        Toast.makeText(this, "Post Failed: $err", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Failed to post item: ${errorMessage ?: "Unknown error"}", Toast.LENGTH_LONG).show()
                     }
                 }
             } else {
-                Toast.makeText(this, "Image upload failed", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Image upload failed. Please try again.", Toast.LENGTH_LONG).show()
             }
         }
     }

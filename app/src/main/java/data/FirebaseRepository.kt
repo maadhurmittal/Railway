@@ -6,17 +6,12 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
 
-// import data.Item // Removed
-// import data.User // Removed
-
-
 object FirebaseRepository {
 
     private val auth = FirebaseAuth.getInstance()
-     val firestore = FirebaseFirestore.getInstance()
+    val firestore = FirebaseFirestore.getInstance()
     private val storage = FirebaseStorage.getInstance()
 
-    // Register user and save to Firestore
     fun register(
         name: String,
         email: String,
@@ -46,7 +41,6 @@ object FirebaseRepository {
             }
     }
 
-    // Login user
     fun login(email: String, password: String, onResult: (Boolean, String?) -> Unit) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener {
@@ -57,7 +51,6 @@ object FirebaseRepository {
             }
     }
 
-    // Upload image to Firebase Storage and return download URL
     fun uploadImage(uri: Uri, onResult: (Boolean, String?) -> Unit) {
         val ref = storage.reference.child("item_images/${System.currentTimeMillis()}.jpg")
         ref.putFile(uri)
@@ -73,7 +66,6 @@ object FirebaseRepository {
             }
     }
 
-    // Post item to Firestore
     fun postItem(item: Item, onResult: (Boolean, String?) -> Unit) {
         val docRef = firestore.collection("items").document()
         val newItem = item.copy(itemId = docRef.id)
@@ -86,7 +78,6 @@ object FirebaseRepository {
             }
     }
 
-    // Fetch lost/found items by type
     fun fetchItems(type: String, onItems: (List<Item>) -> Unit) {
         firestore.collection("items")
             .whereEqualTo("type", type)
@@ -101,7 +92,22 @@ object FirebaseRepository {
             }
     }
 
-    // Fetch current user's posts
+    fun fetchItemById(itemId: String, onResult: (Item?) -> Unit) {
+        firestore.collection("items").document(itemId)
+            .get()
+            .addOnSuccessListener { documentSnapshot ->
+                if (documentSnapshot.exists()) {
+                    val item = documentSnapshot.toObject(Item::class.java)
+                    onResult(item)
+                } else {
+                    onResult(null)
+                }
+            }
+            .addOnFailureListener {
+                onResult(null)
+            }
+    }
+
     fun fetchMyPosts(uid: String, onItems: (List<Item>) -> Unit) {
         firestore.collection("items")
             .whereEqualTo("postedBy", uid)
@@ -116,7 +122,6 @@ object FirebaseRepository {
             }
     }
 
-    // Update status of item (for admin/owner)
     fun updateStatus(itemId: String, status: String, onResult: (Boolean) -> Unit) {
         firestore.collection("items").document(itemId)
             .update("status", status)
@@ -124,7 +129,6 @@ object FirebaseRepository {
             .addOnFailureListener { onResult(false) }
     }
 
-    // Delete item (for admin/owner)
     fun deleteItem(itemId: String, onResult: (Boolean) -> Unit) {
         firestore.collection("items").document(itemId)
             .delete()

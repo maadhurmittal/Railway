@@ -11,4 +11,9 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="grey">#BDBDBD</color>
+
+    <color name="light_pink_background">#FFE6E6</color>
+    <color name="text_color_dark">#333333</color>
+    <color name="outline_stroke_color">#FF7D7D</color>
+    <color name="button_background_color">#7D3CFF</color>
 </resources>
