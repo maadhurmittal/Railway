@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "397384041609",
+    "project_id": "cris-111",
+    "storage_bucket": "cris-111.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:397384041609:android:da2c9900dd37dfba50f258",
+        "android_client_info": {
+          "package_name": "com.example.railway"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "397384041609-jspjtq4m6qt3ikns3jjcbsvtmfosntln.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.railway",
+            "certificate_hash": "d5018d8e4e46aa5597e2f986e4888f6cb6f926c7"
+          }
+        },
+        {
+          "client_id": "397384041609-rp29l9nd5marjklcbcd8qc6rg3cjqe9c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBR9_1sXvJPujZ9njS9eH_wkRKg2-8GBSQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "397384041609-rp29l9nd5marjklcbcd8qc6rg3cjqe9c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,97 @@
+.
+├── app
+│   ├── build.gradle.kts
+│   ├── google-services.json
+│   ├── proguard-rules.pro
+│   └── src
+│       ├── androidTest
+│       │   └── java
+│       │       └── com
+│       │           └── example
+│       │               └── railway
+│       │                   └── ExampleInstrumentedTest.kt
+│       ├── main
+│       │   ├── AndroidManifest.xml
+│       │   ├── java
+│       │   │   ├── com
+│       │   │   │   └── example
+│       │   │   │       └── railway
+│       │   │   │           ├── MainActivity.kt
+│       │   │   │           └── ui
+│       │   │   │               ├── AuthActivity.kt
+│       │   │   │               ├── ItemDetailActivity.kt
+│       │   │   │               ├── ItemsAdapter.kt
+│       │   │   │               ├── ItemsFragment.kt
+│       │   │   │               ├── MyPostsFragment.kt
+│       │   │   │               ├── PostItemActivity.kt
+│       │   │   │               └── theme
+│       │   │   │                   ├── Color.kt
+│       │   │   │                   ├── Theme.kt
+│       │   │   │                   └── Type.kt
+│       │   │   └── data
+│       │   │       ├── FirebaseRepository.kt
+│       │   │       ├── Item.kt
+│       │   │       └── User.kt
+│       │   └── res
+│       │       ├── drawable
+│       │       │   ├── ic_error_image.xml
+│       │       │   ├── ic_found.xml
+│       │       │   ├── ic_image_placeholder.xml
+│       │       │   ├── ic_lost.xml
+│       │       │   ├── ic_my_posts.xml
+│       │       │   └── ic_post.xml
+│       │       ├── layout
+│       │       │   ├── activity_auth.xml
+│       │       │   ├── activity_item_detail.xml
+│       │       │   ├── activity_main.xml
+│       │       │   ├── activity_post_item.xml
+│       │       │   ├── fragment_items.xml
+│       │       │   └── item_row.xml
+│       │       ├── menu
+│       │       │   └── bottom_nav_menu.xml
+│       │       ├── mipmap-anydpi
+│       │       │   ├── ic_launcher_round.xml
+│       │       │   └── ic_launcher.xml
+│       │       ├── mipmap-hdpi
+│       │       │   ├── ic_launcher_round.webp
+│       │       │   └── ic_launcher.webp
+│       │       ├── mipmap-mdpi
+│       │       │   ├── ic_launcher_round.webp
+│       │       │   └── ic_launcher.webp
+│       │       ├── mipmap-xhdpi
+│       │       │   ├── ic_launcher_round.webp
+│       │       │   └── ic_launcher.webp
+│       │       ├── mipmap-xxhdpi
+│       │       │   ├── ic_launcher_round.webp
+│       │       │   └── ic_launcher.webp
+│       │       ├── mipmap-xxxhdpi
+│       │       │   ├── ic_launcher_round.webp
+│       │       │   └── ic_launcher.webp
+│       │       ├── values
+│       │       │   ├── colors.xml
+│       │       │   ├── strings.xml
+│       │       │   └── themes.xml
+│       │       └── xml
+│       │           ├── backup_rules.xml
+│       │           └── data_extraction_rules.xml
+│       └── test
+│           └── java
+│               └── com
+│                   └── example
+│                       └── railway
+│                           └── ExampleUnitTest.kt
+├── build.gradle.kts
+├── folder_structure.txt
+├── full_code.txt
+├── gradle
+│   ├── libs.versions.toml
+│   └── wrapper
+│       ├── gradle-wrapper.jar
+│       └── gradle-wrapper.properties
+├── gradle.properties
+├── gradlew
+├── gradlew.bat
+├── local.properties
+└── settings.gradle.kts
+
+35 directories, 60 files
