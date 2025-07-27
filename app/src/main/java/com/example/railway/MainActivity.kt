@@ -2,56 +2,78 @@ package com.example.railway.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.railway.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
 
-    private val lostFragment = ItemsFragment.newInstance("lost")
-    private val foundFragment = ItemsFragment.newInstance("found")
-    private val myPostsFragment = MyPostsFragment()
-
-    private var currentFragmentTag = "lost"
+    private lateinit var auth: FirebaseAuth
+    private lateinit var welcomeTextView: TextView
+    private lateinit var logoutButton: Button
+    private lateinit var bottomNavigationView: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        auth = FirebaseAuth.getInstance()
 
-        bottomNav.setOnItemSelectedListener { item ->
+        welcomeTextView = findViewById(R.id.welcomeTextView)
+        logoutButton = findViewById(R.id.logoutButton)
+        bottomNavigationView = findViewById(R.id.bottom_navigation)
+
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            welcomeTextView.text = "Welcome, ${currentUser.email?.substringBefore("@") ?: "User"}!"
+        } else {
+            startActivity(Intent(this, AuthActivity::class.java))
+            finish()
+            return
+        }
+
+        logoutButton.setOnClickListener {
+            auth.signOut()
+            val intent = Intent(this, AuthActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
+        }
+
+        if (savedInstanceState == null) {
+            loadFragment(ItemsFragment.newInstance(type = "lost"))
+        }
+
+        bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.menu_lost -> switchToFragment(lostFragment, "lost")
-                R.id.menu_found -> switchToFragment(foundFragment, "found")
+                R.id.menu_lost -> {
+                    loadFragment(ItemsFragment.newInstance(type = "lost"))
+                    true
+                }
+                R.id.menu_found -> {
+                    loadFragment(ItemsFragment.newInstance(type = "found"))
+                    true
+                }
                 R.id.menu_post -> {
                     startActivity(Intent(this, PostItemActivity::class.java))
-                    return@setOnItemSelectedListener true
+                    true
                 }
-                R.id.menu_my_posts -> switchToFragment(myPostsFragment, "my_posts")
+                R.id.menu_my_posts -> {
+                    loadFragment(MyPostsFragment())
+                    true
+                }
                 else -> false
             }
         }
-
-        // Set default fragment
-        if (savedInstanceState == null) {
-            bottomNav.selectedItemId = R.id.menu_lost
-        }
     }
 
-    private fun switchToFragment(fragment: Fragment, tag: String): Boolean {
-        if (tag == currentFragmentTag) return true // Already selected
-
+    private fun loadFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
-            .setCustomAnimations(
-                android.R.anim.fade_in,
-                android.R.anim.fade_out
-            )
-            .replace(R.id.fragmentContainer, fragment, tag)
+            .replace(R.id.fragment_container, fragment)
             .commit()
-
-        currentFragmentTag = tag
-        return true
     }
 }

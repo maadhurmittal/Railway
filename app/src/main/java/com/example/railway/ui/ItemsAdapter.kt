@@ -38,12 +38,14 @@ class ItemsAdapter(
         private val locationTextView: TextView = itemView.findViewById(R.id.itemLocation)
         private val dateTextView: TextView = itemView.findViewById(R.id.itemDate)
         private val photoImageView: ImageView = itemView.findViewById(R.id.itemPhoto)
+        private val statusTextView: TextView = itemView.findViewById(R.id.itemStatus) // Added this line
 
         fun bind(item: Item) {
             titleTextView.text = item.title
             descriptionTextView.text = item.description
             locationTextView.text = "📍 ${item.location}"
             dateTextView.text = "📅 ${item.date}"
+            statusTextView.text = "Status: ${item.status.replaceFirstChar { it.uppercase() }}" // Added this line
 
             Glide.with(itemView.context)
                 .load(item.photoUrl)
@@ -51,7 +53,6 @@ class ItemsAdapter(
                 .error(R.drawable.ic_error_image)
                 .into(photoImageView)
 
-            // 🔽 Set click listener with ripple support
             itemView.setOnClickListener {
                 onItemClick(item)
             }

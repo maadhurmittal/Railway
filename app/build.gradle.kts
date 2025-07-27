@@ -8,12 +8,12 @@ plugins {
 
 android {
     namespace = "com.example.railway"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.railway"
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -43,7 +43,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.3"
+        kotlinCompilerExtensionVersion = "1.6.10"
     }
 
     packagingOptions {
@@ -56,8 +56,10 @@ android {
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.google.material)
+    // Ensure these are using the libs convention or standard string
+    // If you are using libs.androidx.appcompat, ensure it's defined in libs.versions.toml
+    implementation(libs.androidx.appcompat) // This line should be fine if libs.androidx.appcompat is correct
+    implementation(libs.google.material) // This line should be fine if libs.google.material is correct
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
@@ -69,6 +71,8 @@ dependencies {
     implementation(libs.firebase.auth.ktx)
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.firebase.storage.ktx)
+
+    implementation("com.google.android.gms:play-services-auth:21.2.0")
 
     implementation(libs.glide)
     kapt(libs.glide.compiler)
@@ -82,5 +86,4 @@ dependencies {
 
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-
 }

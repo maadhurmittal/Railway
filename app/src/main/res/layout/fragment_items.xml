@@ -2,26 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-    <!-- Elevation AppBar -->
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
-        android:layout_width="0dp"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:title="🚉 Lost and Found Items"
-        android:titleTextColor="@android:color/white"
-        app:titleCentered="true"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:elevation="6dp"
-        app:navigationIcon="@drawable/ic_back" />
-
-    <!-- Empty View Text (if list is empty) -->
     <TextView
         android:id="@+id/emptyView"
         android:layout_width="wrap_content"
@@ -30,13 +15,12 @@
         android:textSize="16sp"
         android:textColor="@android:color/darker_gray"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="24dp" />
 
-    <!-- RecyclerView List -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewItems"
         android:layout_width="0dp"
@@ -45,7 +29,7 @@
         android:padding="8dp"
         android:scrollbars="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

@@ -5,6 +5,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.auth.GoogleAuthProvider
 
 object FirebaseRepository {
 
@@ -45,6 +46,33 @@ object FirebaseRepository {
         auth.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener {
                 onResult(true, null)
+            }
+            .addOnFailureListener { e ->
+                onResult(false, e.message)
+            }
+    }
+
+    fun signInWithGoogle(idToken: String, onResult: (Boolean, String?) -> Unit) {
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        auth.signInWithCredential(credential)
+            .addOnSuccessListener { authResult ->
+                val uid = authResult.user?.uid
+                val email = authResult.user?.email
+                val displayName = authResult.user?.displayName
+
+                if (uid != null && email != null && displayName != null) {
+                    val user = User(uid, displayName, email, "user")
+                    firestore.collection("users").document(uid)
+                        .set(user)
+                        .addOnSuccessListener {
+                            onResult(true, null)
+                        }
+                        .addOnFailureListener { e ->
+                            onResult(false, e.message)
+                        }
+                } else {
+                    onResult(false, "Google Sign-In failed: User data incomplete.")
+                }
             }
             .addOnFailureListener { e ->
                 onResult(false, e.message)
@@ -134,5 +162,13 @@ object FirebaseRepository {
             .delete()
             .addOnSuccessListener { onResult(true) }
             .addOnFailureListener { onResult(false) }
+    }
+
+    fun logout() {
+        auth.signOut()
+    }
+
+    fun getCurrentUserUid(): String? {
+        return auth.currentUser?.uid
     }
 }

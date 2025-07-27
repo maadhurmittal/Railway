@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.railway.R
@@ -42,6 +43,13 @@ class PostItemActivity : AppCompatActivity() {
         uploadBtn = findViewById(R.id.btnUploadImage)
         postBtn = findViewById(R.id.btnPost)
         itemImageView = findViewById(R.id.item_image_preview)
+
+        // Logs to check initialization (keep these for now, they are useful)
+        Log.d("PostItemActivity", "typeSpinner initialized: ${this::typeSpinner.isInitialized}")
+        Log.d("PostItemActivity", "titleEdit initialized: ${this::titleEdit.isInitialized}")
+        Log.d("PostItemActivity", "postBtn initialized: ${this::postBtn.isInitialized}")
+        Log.d("PostItemActivity", "itemImageView initialized: ${this::itemImageView.isInitialized}")
+
 
         ArrayAdapter.createFromResource(
             this,
@@ -103,10 +111,14 @@ class PostItemActivity : AppCompatActivity() {
     }
 
     private fun postItem() {
-        val type = typeSpinner.selectedItem.toString().lowercase(Locale.getDefault())
+        Log.d("PostItemActivity", "postItem() function called")
+
+        // MODIFIED LINE: Add Elvis operator to provide a default if selectedItem is null
+        val type = (typeSpinner.selectedItem?.toString() ?: "unknown").lowercase(Locale.getDefault())
         val title = titleEdit.text.toString().trim()
         val description = descriptionEdit.text.toString().trim()
-        val category = categorySpinner.selectedItem.toString()
+        // MODIFIED LINE: Add Elvis operator for categorySpinner as well, just in case
+        val category = (categorySpinner.selectedItem?.toString() ?: "Other")
         val location = locationEdit.text.toString().trim()
         val date = dateEdit.text.toString().trim()
         val postedBy = FirebaseAuth.getInstance().currentUser?.uid

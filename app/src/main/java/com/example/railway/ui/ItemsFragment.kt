@@ -9,13 +9,14 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.railway.R
-import com.example.railway.data.FirebaseRepository // Corrected import
-import com.example.railway.data.Item // Corrected import
+import com.example.railway.data.FirebaseRepository
+import com.example.railway.data.Item
 
 class ItemsFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ItemsAdapter
+    private lateinit var emptyView: View
     private var itemType: String = "lost"
 
     companion object {
@@ -41,9 +42,11 @@ class ItemsFragment : Fragment() {
     ): View? {
         return inflater.inflate(R.layout.fragment_items, container, false)
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         recyclerView = view.findViewById(R.id.recyclerViewItems)
-        val emptyView: View = view.findViewById(R.id.emptyView) // <-- Add this line
+        emptyView = view.findViewById(R.id.emptyView)
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = ItemsAdapter(emptyList()) { item ->
@@ -56,7 +59,6 @@ class ItemsFragment : Fragment() {
         FirebaseRepository.fetchItems(itemType) { items ->
             adapter.updateList(items)
 
-            // Show/hide empty view logic
             if (items.isEmpty()) {
                 recyclerView.visibility = View.GONE
                 emptyView.visibility = View.VISIBLE
@@ -66,5 +68,4 @@ class ItemsFragment : Fragment() {
             }
         }
     }
-
 }
