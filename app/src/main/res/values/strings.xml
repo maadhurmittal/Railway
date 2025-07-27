@@ -19,5 +19,5 @@
         <item>Jewelry</item>
         <item>Other</item>
     </string-array>
-    <string name="default_web_client_id">YOUR_WEB_CLIENT_ID_FROM_GOOGLE_SERVICES_JSON</string>
+    <string name="default_web_client_id">397384041609-rp29l9nd5marjklcbcd8qc6rg3cjqe9c.apps.googleusercontent.com</string>
 </resources>
